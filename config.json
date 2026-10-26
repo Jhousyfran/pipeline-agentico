@@ -1,0 +1,34 @@
+{
+  "vault": "vault",
+  "worktrees": "worktrees",
+  "claude_bin": "claude",
+  "orcamento_card_usd": 5.0,
+  "max_voltas": 3,
+  "max_tentativas": 3,
+  "espera_base_s": 10,
+  "timeout_agente_s": 1800,
+  "timeout_gate_s": 1800,
+  "notificar_cmd": "",
+  "papeis": {
+    "analista": {"modelo": "sonnet", "orcamento_usd": 0.5},
+    "arquiteto": {"modelo": "sonnet", "orcamento_usd": 0.5},
+    "dev": {
+      "modelo": "opus",
+      "orcamento_usd": 2.5,
+      "bash_permitido": [
+        "Bash(git status*)", "Bash(git diff*)", "Bash(git log*)", "Bash(ls*)",
+        "Bash(composer *)", "Bash(php *)", "Bash(vendor/bin/*)",
+        "Bash(python3 *)", "Bash(pytest*)", "Bash(npm test*)", "Bash(npm run *)"
+      ]
+    },
+    "revisor": {"modelo": "sonnet", "orcamento_usd": 0.5},
+    "qa": {
+      "modelo": "sonnet",
+      "orcamento_usd": 1.0,
+      "bash_permitido": [
+        "Bash(git status*)", "Bash(ls*)", "Bash(npx playwright *)",
+        "Bash(vendor/bin/*)", "Bash(php *)", "Bash(python3 *)", "Bash(pytest*)"
+      ]
+    }
+  }
+}

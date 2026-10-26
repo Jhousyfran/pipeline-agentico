@@ -1,0 +1,9 @@
+{
+  "descricao": "Story com critérios suficientes: o analista deve fechar e seguir, em Dado/Quando/Então.",
+  "card": "---\nid: EVAL-1\ntitulo: Exportar relatório em CSV\nprojeto: eval\nstatus: a-fazer\n---\n\n## História\n\nComo gestor, quero exportar o relatório de vendas em CSV, para analisar os dados na minha planilha.\n\n## Critérios de aceite\n\n- Com filtros aplicados, o botão Exportar CSV baixa um arquivo só com as linhas filtradas\n- O CSV usa vírgula como separador, UTF-8 e cabeçalho com os nomes das colunas visíveis\n- Sem nenhuma linha no filtro, o botão fica desabilitado\n\n## Notas\n\nO relatório já existe em /relatorios/vendas e é paginado no servidor.\n",
+  "espera": {
+    "campos": {"pronto": true},
+    "documento_contem": ["Dado", "Quando", "Então", "Tasks"],
+    "max_custo_usd": 0.3
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "descricao": "Story sem a regra de negócio central: o analista deve parar e perguntar em vez de inventar.",
+  "card": "---\nid: EVAL-2\ntitulo: Desconto para clientes fiéis\nprojeto: eval\nstatus: a-fazer\n---\n\n## História\n\nComo cliente fiel, quero receber desconto, para continuar comprando.\n\n## Critérios de aceite\n\n- O cliente fiel recebe o desconto no checkout\n",
+  "espera": {
+    "campos": {"pronto": false},
+    "max_custo_usd": 0.3
+  }
+}

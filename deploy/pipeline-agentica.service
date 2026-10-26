@@ -1,0 +1,20 @@
+# Orquestrador como serviço do sistema (VPS). Se cair, o systemd reinicia e cada card retoma do checkpoint.
+#   sudo cp deploy/pipeline-agentica.service /etc/systemd/system/
+#   sudo systemctl daemon-reload && sudo systemctl enable --now pipeline-agentica
+#   journalctl -u pipeline-agentica -f
+[Unit]
+Description=Pipeline agentica (orquestrador do escritorio autonomo)
+After=network-online.target
+
+[Service]
+Type=simple
+User=pipeline
+WorkingDirectory=/opt/pipeline-agentica
+ExecStart=/usr/bin/python3 -m pipeline run --watch 60
+Restart=on-failure
+RestartSec=30
+# Segredos ficam no ambiente e nunca entram no prompt.
+EnvironmentFile=-/etc/pipeline-agentica.env
+
+[Install]
+WantedBy=multi-user.target

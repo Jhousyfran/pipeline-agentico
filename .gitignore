@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.orquestrador.lock
+# O vault é um repositório git próprio (e um vault do Obsidian); as worktrees pertencem aos repositórios-alvo.
+vault/
+worktrees/
