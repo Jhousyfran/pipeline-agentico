@@ -34,6 +34,14 @@ python3 -m pipeline status
 python3 -m pipeline metricas                               # vault/metricas/painel.md
 ```
 
+### Vault em repositório próprio
+
+O vault pode morar fora desta pasta (`"vault": "~/vaults/escritorio"` no `config.json`) e ter remoto próprio.
+Com `"vault_push": true`, a cada passada da fila o orquestrador faz `git pull --rebase` no vault (traz cards
+criados em outra máquina), processa, commita o painel e faz `git push`. Falha de rede ou de upstream vira aviso
+no stderr e o orquestrador segue; o que ficou commitado sobe na próxima passada. Configure o upstream uma vez
+(`git push -u origin main` no vault) e deixe **uma só máquina** processando a fila.
+
 O orquestrador faz `git add -A` na worktree depois do dev e do QA, então o repositório-alvo precisa de um
 `.gitignore` que cubra o que os testes geram (`__pycache__/`, `vendor/`, `node_modules/`, `coverage/`...).
 

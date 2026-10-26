@@ -144,3 +144,14 @@ class Vault:
             return
         git(self.raiz, "add", "-A")
         git(self.raiz, "commit", "-q", "-m", mensagem, check=False)
+
+    def sincronizar(self, direcao: str) -> str | None:
+        """`pull` traz cards criados em outra máquina; `push` publica o que o escritório fez.
+
+        Devolve o erro em vez de levantar: o trabalho já está commitado localmente e sobe na próxima passada.
+        """
+        if not (self.raiz / ".git").exists():
+            return "o vault não é um repositório git"
+        args = ("pull", "--rebase", "--autostash", "-q") if direcao == "pull" else ("push", "-q")
+        r = git(self.raiz, *args, check=False)
+        return None if r.returncode == 0 else (r.stderr.strip() or f"git {direcao} saiu com código {r.returncode}")

@@ -30,7 +30,7 @@ class Orquestrador:
         self.vault = vault
         self.runner = runner
         self.dormir = dormir
-        self.dir_worktrees = (raiz / cfg["worktrees"]).resolve()
+        self.dir_worktrees = (raiz / Path(cfg["worktrees"]).expanduser()).resolve()
 
     def pendentes(self) -> list[Card]:
         return [c for c in self.vault.cards() if c.status in STATUS_NA_FILA]

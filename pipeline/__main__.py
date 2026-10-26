@@ -19,7 +19,7 @@ PASTAS_VAULT = ("projetos", "demandas", "incidentes", "runbooks", "metricas")
 
 def carregar(args) -> tuple[dict, Vault]:
     cfg = json.loads(Path(args.config).read_text())
-    return cfg, Vault((RAIZ / cfg["vault"]).resolve())
+    return cfg, Vault((RAIZ / Path(cfg["vault"]).expanduser()).resolve())
 
 
 def _template(arquivo: str, **valores) -> str:
@@ -36,7 +36,7 @@ def cmd_init(args) -> None:
     (vault.raiz / "notificacoes.md").touch()
     if not (vault.raiz / ".git").exists():
         git(vault.raiz, "init", "-q")
-        vault.commit("vault inicial")
+    vault.commit("vault inicial")
     print(f"vault pronto em {vault.raiz}")
 
 
@@ -78,6 +78,8 @@ def cmd_run(args) -> None:
         sys.exit("já existe um orquestrador rodando")
     orq = Orquestrador(cfg, RAIZ, vault, ClaudeRunner(cfg["claude_bin"], cfg["timeout_agente_s"]))
     while True:
+        if cfg.get("vault_push"):
+            _sincronizar(vault, "pull")
         if args.card:
             card = vault.card(args.card)
             if card.status not in ("a-fazer", "em-andamento"):
@@ -87,10 +89,21 @@ def cmd_run(args) -> None:
         else:
             n = orq.rodar_fila()
         print(f"{agora()} · {n} card(s) processado(s)")
+        (vault.raiz / "metricas").mkdir(parents=True, exist_ok=True)
         (vault.raiz / "metricas" / "painel.md").write_text(metricas.painel(vault))
+        vault.commit("métricas: painel atualizado")
+        if cfg.get("vault_push"):
+            _sincronizar(vault, "push")
         if not args.watch:
             return
         time.sleep(args.watch)
+
+
+def _sincronizar(vault: Vault, direcao: str) -> None:
+    erro = vault.sincronizar(direcao)
+    if erro:
+        print(f"{agora()} · aviso: git {direcao} do vault falhou, sigo e tento na próxima passada\n  {erro}",
+              file=sys.stderr)
 
 
 def cmd_status(args) -> None:

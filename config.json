@@ -9,6 +9,7 @@
   "timeout_agente_s": 1800,
   "timeout_gate_s": 1800,
   "notificar_cmd": "",
+  "vault_push": false,
   "papeis": {
     "analista": {"modelo": "sonnet", "orcamento_usd": 0.5},
     "arquiteto": {"modelo": "sonnet", "orcamento_usd": 0.5},
